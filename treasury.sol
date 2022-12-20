@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 contract Treasury {
-    uint balance = 0;
-    address owner;
+    uint public balance = 0;
+    address public owner;
 
     constructor() {
         owner = msg.sender;
@@ -14,11 +14,10 @@ contract Treasury {
     }
 
     function withdraw(uint amount, address payable destAddress) public onlyOwner {
+        require(balance > amount, "balance is not enough");
         balance -= amount;
         destAddress.transfer(amount);
     }
-
-
 
     modifier onlyOwner {
         require(msg.sender == owner, "You're not owner");
